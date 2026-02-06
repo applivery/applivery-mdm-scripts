@@ -30,4 +30,4 @@ We love community contributions! If you have a script that could help others:
 These scripts are provided **"as is"** without any warranty of any kind. Applivery is not responsible for any damage or data loss caused by the execution of these scripts. **Always test scripts in a staging or sandbox environment before deploying them to your entire fleet.**
 
 ---
-Built with ❤️ by the **Applivery Team** and the Community.
+Built with ❤️ by the **Applivery Team** and the Community. Find us at https://www.applivery.com/

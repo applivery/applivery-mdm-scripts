@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # ---
-# Title: macOS Uptime Enforcement with swiftDialog
-# Description: Monitors system uptime and triggers notifications or forced reboots.
+# Title: macOS Uptime Enforcement with Applivery Branding
+# Description: Monitors uptime and triggers UI alerts using swiftDialog with corporate branding.
 # Author: Applivery Community
-# Version: 2.0.0
+# Version: 1.2.0
 # ---
 
 # ==========================================
@@ -14,95 +14,97 @@
 # TEST_UPTIME_DAYS="13" 
 
 # ==========================================
-# 1. PRE-FLIGHT & CLEANUP
+# 1. PRE-FLIGHT & CLEANUP (Dialog.app and old versions)
 # ==========================================
-DIALOG_OLD_APP="/Applications/Dialog.app"
-DIALOG_NEW_PATH="/Library/Application Support/Dialog"
+# This ensures we don't use a previously installed Dialog.app that might conflict
+DIALOG_OLD="/Applications/Dialog.app"
 
-if [ -d "$DIALOG_OLD_APP" ] || [ -d "$DIALOG_NEW_PATH" ]; then
-    echo "Checking for existing Dialog installations..."
-    pkill -if "Dialog.app" 2>/dev/null
-    rm -rf "$DIALOG_OLD_APP" "$DIALOG_NEW_PATH" "/usr/local/bin/dialog" 2>/dev/null
+if [ -d "$DIALOG_OLD" ]; then
+    echo "→ Old Dialog.app found. Removing..."
+    pgrep -if "Dialog.app" && pkill -if "Dialog.app" && sleep 1
+    sudo rm -rf "$DIALOG_OLD" 2>/dev/null
+fi
+
+# swiftDialog paths
+DIALOG_CLI="/usr/local/bin/dialog"
+DIALOG_APP="/Library/Application Support/Dialog/Dialog.app"
+DIALOG_ICON_DIR="/Library/Application Support/Dialog"
+DIALOG_ICON="$DIALOG_ICON_DIR/Dialog.png"
+BRAND_ICON="/var/root/AppliveryAssets/applivery.png"
+
+needs_install=0
+needs_reinstall=0
+
+CURRENT_USER=$(stat -f %Su /dev/console)
+USER_ID=$(id -u "$CURRENT_USER" 2>/dev/null || true)
+
+# ==========================================
+# 2. BRANDING LOGIC (Corporate Policy)
+# ==========================================
+mkdir -p "$DIALOG_ICON_DIR"
+chmod 755 "$DIALOG_ICON_DIR"
+
+if [ -f "$BRAND_ICON" ]; then
+    tmp_brand="$(/usr/bin/mktemp /tmp/dialog_brand.XXXXXX.png)"
+    # Resizing logo to 512x512 for optimal UI rendering
+    if ! sips -z 512 512 "$BRAND_ICON" --out "$tmp_brand" >/dev/null 2>&1; then
+        /bin/cp "$BRAND_ICON" "$tmp_brand"
+    fi
+    if [ -f "$tmp_brand" ]; then
+        if [ ! -f "$DIALOG_ICON" ] || ! cmp -s "$tmp_brand" "$DIALOG_ICON"; then
+            cp "$tmp_brand" "$DIALOG_ICON"
+            chmod 644 "$DIALOG_ICON"
+            chown root:wheel "$DIALOG_ICON" >/dev/null 2>&1
+            needs_reinstall=1 # Ensure Dialog is ready to use new icon
+        fi
+    fi
+    rm -f "$tmp_brand"
 fi
 
 # ==========================================
-# 2. INSTALL SWIFTDIALOG
+# 3. SWIFTDIALOG INSTALLATION
 # ==========================================
-get_dialog() {
-    echo "Downloading latest swiftDialog..."
-    URL=$(curl -sfL https://api.github.com/repos/swiftDialog/swiftDialog/releases/latest | grep "browser_download_url.*pkg" | cut -d '"' -f 4)
-    curl -L "$URL" -o "/tmp/dialog.pkg"
-    installer -pkg "/tmp/dialog.pkg" -target /
-    rm /tmp/dialog.pkg
+get_swiftdialog_pkg_url() {
+    curl -fsSL -H "Accept: application/vnd.github+json" "https://api.github.com/repos/swiftDialog/swiftDialog/releases/latest" | \
+    sed -nE 's/.*"browser_download_url":"([^"]*\.pkg)".*/\1/p' | head -n 1
 }
 
-[ ! -f "/usr/local/bin/dialog" ] && get_dialog
-
-# ==========================================
-# 3. UPTIME LOGIC
-# ==========================================
-DIALOG_CLI="/usr/local/bin/dialog"
-CURRENT_USER=$(stat -f %Su /dev/console)
-USER_ID=$(id -u "$CURRENT_USER")
-BOOT_TIME=$(sysctl -n kern.boottime | awk -F 'sec = |, usec' '{ print $2; exit }')
-UPTIME_SECONDS=$(( $(date +%s) - BOOT_TIME ))
-UPTIME_DAYS=$(( UPTIME_SECONDS / 86400 ))
-
-# Apply Testing Overrides
-if [ -n "$TEST_UPTIME_DAYS" ]; then
-    echo "⚠️ TESTING MODE ACTIVE: Forcing uptime to $TEST_UPTIME_DAYS days"
-    UPTIME_DAYS="$TEST_UPTIME_DAYS"
+if [ ! -x "$DIALOG_CLI" ] || [ ! -d "$DIALOG_APP" ]; then
+    needs_install=1
 fi
 
+if [ "$needs_install" -eq 1 ] || [ "$needs_reinstall" -eq 1 ]; then
+    pkg_url="$(get_swiftdialog_pkg_url)"
+    if [ -n "$pkg_url" ]; then
+        pkg_path="$(mktemp /tmp/swiftDialog.XXXXXX.pkg)"
+        curl -fL "$pkg_url" -o "$pkg_path"
+        installer -pkg "$pkg_path" -target /
+        rm -f "$pkg_path"
+    fi
+fi
+
+# ==========================================
+# 4. UPTIME LOGIC
+# ==========================================
 run_as_user() {
     launchctl asuser "$USER_ID" sudo -u "$CURRENT_USER" "$@"
 }
 
-# ==========================================
-# 4. ENFORCEMENT LEVELS
-# ==========================================
-echo "Device Uptime: $UPTIME_DAYS days."
+killall Dialog 2>/dev/null
+current_unix_time="$(date '+%s')"
+boot_time_unix="$(sysctl -n kern.boottime | awk -F 'sec = |, usec' '{ print $2; exit }')"
+uptime_days="$(( (current_unix_time - boot_time_unix) / 86400 ))"
 
-if [ "$UPTIME_DAYS" -le 4 ]; then
-    echo "Uptime within limits ($UPTIME_DAYS days). No action."
+if [ -n "$TEST_UPTIME_DAYS" ]; then
+    echo "⚠️ TESTING MODE: $TEST_UPTIME_DAYS days"
+    uptime_days="$TEST_UPTIME_DAYS"
+fi
+
+# ==========================================
+# 5. ENFORCEMENT LEVELS
+# ==========================================
+if [ "$uptime_days" -le 4 ]; then
+    echo "Uptime OK ($uptime_days days). Exiting."
     exit 0
 
-elif [ "$UPTIME_DAYS" -ge 5 ] && [ "$UPTIME_DAYS" -le 8 ]; then
-    echo "Level 1: Advice Notification"
-    run_as_user "$DIALOG_CLI" \
-        --notification \
-        --title "$UPTIME_DAYS days without a reboot!" \
-        --message "Your Mac needs to restart to regain performance. Security updates may be pending."
-    afplay "/System/Library/Sounds/Sosumi.aiff"
-
-elif [ "$UPTIME_DAYS" -ge 9 ] && [ "$UPTIME_DAYS" -le 12 ]; then
-    echo "Level 2: Dialog with Postpone"
-    afplay "/System/Library/Sounds/Sosumi.aiff" &
-    run_as_user "$DIALOG_CLI" \
-        --title "Restart Required" \
-        --message "*${UPTIME_DAYS} days without a reboot!* \n\nPlease save your work and press Restart. If you press Postpone, you will be reminded in 24 hours." \
-        --button1text "Restart now" \
-        --button2text "Postpone" \
-        --timer 840 --width 650 --height 280 --position bottomright --ontop --moveable
-    [ $? -eq 0 ] && shutdown -r now
-
-elif [ "$UPTIME_DAYS" -ge 13 ]; then
-    echo "Level 3: Critical Blocking Warning"
-    afplay "/System/Library/Sounds/Sosumi.aiff" & 
-
-    # Forced Acknowledgment
-    run_as_user "$DIALOG_CLI" \
-        --title "Restart Required" \
-        --message "*${UPTIME_DAYS} days without a reboot!* \n\n*After pressing I Understand, you will have 10 minutes to restart your computer.*" \
-        --button1text "I Understand" \
-        --width 650 --height 230 --blurscreen --ontop
-
-    # Final Timer Countdown
-    run_as_user "$DIALOG_CLI" \
-        --title none \
-        --message "Your computer will restart when the timer reaches zero. Save your work now." \
-        --button1text "Restart now" \
-        --timer 600 --width 320 --height 110 --position bottomright --icon none --ontop
-    
-    shutdown -r now
-fi
+elif [ "$uptime_days" -ge 5 ]
