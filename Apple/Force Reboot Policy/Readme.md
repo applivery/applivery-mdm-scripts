@@ -25,10 +25,13 @@ To test the UI levels, uncomment `TEST_UPTIME_DAYS` at the top of the script and
 ## ⚙️ Execution
 
 ![Notification](./img/notif.png)
+
 *Notification showed after 5 to 7 days without restarting*
 
 ![Popup](./img/popup.png)
+
 *Notification showed after 8 to 12 days without restarting*
 
 ![block](./img/block.png)
+
 *Notification showed after more than 13 days without restarting*

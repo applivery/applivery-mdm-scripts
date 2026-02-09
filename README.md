@@ -30,7 +30,9 @@ The repository is organized by Operating System. Each script has its own folder 
 │   └── 📁 Temporary Admin Rights .... [2026-02-06]
 │       └── JIT elevation with reason logging and auto-revoke.
 │
-└── 🪟 Windows (Coming Soon)
+└── 🪟 Windows
+    ├── 📁 Lock Device ......... [2026-02-09]
+        └── Lost or Stolen Device Lock.
 ```
 
 ## 🚀 How to use these scripts
