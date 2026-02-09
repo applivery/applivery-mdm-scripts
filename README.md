@@ -9,6 +9,30 @@ The repository is organized by Operating System. Each script has its own folder 
 * **/macOS**: Shell scripts (`.sh`) for macOS management (Intel and Apple Silicon).
 * **/Windows**: PowerShell scripts (`.ps1`) for Windows 10/11 devices.
 
+## 📂 Repository Structure
+
+```text
+.
+├── 🛠️ .templates ................... [2026-02-06]
+│   ├── README-script.md (Documentation blueprint)
+│   ├── template-macos.sh (Bash boilerplate)
+│   └── template-windows.ps1 (PowerShell boilerplate)
+│
+├── 🍎 Apple (macOS)
+│   ├── 📁 Create Admin User ......... [2026-02-06]
+│   │   └── Automated creation of hidden management accounts.
+│   ├── 📁 Crowdstrike enrollment .... [2026-02-09]
+│   │   └── Post-install licensing and tagging for Falcon sensors.
+│   ├── 📁 Force Reboot Policy ....... [2026-02-06]
+│   │   └── Uptime monitoring and enforced restart intervals.
+│   ├── 📁 Restrict Admin Rights ..... [2026-02-06]
+│   │   └── Demote local users to standard, keeping only IT admin.
+│   └── 📁 Temporary Admin Rights .... [2026-02-06]
+│       └── JIT elevation with reason logging and auto-revoke.
+│
+└── 🪟 Windows (Coming Soon)
+```
+
 ## 🚀 How to use these scripts
 
 1.  **Browse** the repository and find the script that fits your needs.
