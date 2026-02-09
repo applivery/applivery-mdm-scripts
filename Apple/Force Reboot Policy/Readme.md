@@ -21,3 +21,14 @@ To test the UI levels, uncomment `TEST_UPTIME_DAYS` at the top of the script and
 - **Platform:** macOS 11.0+
 - **Execution:** Run as `root` via Applivery Custom Scripts.
 - **Assets:** Ensure `applivery.png` is present in the specified assets path.
+
+## ⚙️ Execution
+
+![Notification](./img/notif.png)
+*Notification showed after 5 to 7 days without restarting*
+
+![Popup](./img/popup.png)
+*Notification showed after 8 to 12 days without restarting*
+
+![block](./img/block.png)
+*Notification showed after more than 13 days without restarting*

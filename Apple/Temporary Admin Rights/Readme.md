@@ -26,5 +26,11 @@ This script implements a "Just-In-Time" (JIT) admin elevation flow. It allows st
 3. Policy: **On-demand** (Self-Service) or via **Applivery Catalog**.
 4. Users can then trigger this script whenever they need to install software or change system settings.
 
+![Self Service App](./img/self.png)
+*The script as it appears in the Applivery Self Service App.*
+
+![Temporary Admin Interface](./img/reason.png)
+*User interface for requesting temporary privileges.*
+
 ---
 *Part of the [Applivery Community Scripts](https://github.com/applivery/community-scripts) collection.*
