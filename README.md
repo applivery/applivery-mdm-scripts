@@ -27,8 +27,12 @@ The repository is organized by Operating System. Each script has its own folder 
 │   │   └── Uptime monitoring and enforced restart intervals.
 │   ├── 📁 Restrict Admin Rights ..... [2026-02-06]
 │   │   └── Demote local users to standard, keeping only IT admin.
-│   └── 📁 Temporary Admin Rights .... [2026-02-06]
-│       └── JIT elevation with reason logging and auto-revoke.
+│   ├── 📁 Temporary Admin Rights .... [2026-02-06]
+│   │   └── JIT elevation with reason logging and auto-revoke.
+│   ├── 📁 Delete Admin User .... [2026-02-09]
+│   │   └── Completely removes a user account and their data.
+│   ├── 📁 Sync Device Name .......... [2026-02-09]
+│       └── Syncs local ComputerName with Applivery Dashboard.
 │
 └── 🪟 Windows
     ├── 📁 Lock Device ......... [2026-02-09]
