@@ -13,23 +13,23 @@ The repository is organized by Operating System. Each script has its own folder 
 
 ### Apple (macOS)
 
-| Script Name | Description | Version | API | Last Update |
-| :--- | :--- | :---: | :---: | :---: |
-| **Create Admin User** | Automated creation of hidden management accounts. | `1.0.0` | ❌ | 2026-02-06 |
-| **Crowdstrike enrollment** | Post-install licensing and tagging for Falcon sensors. | `1.0.0` | ❌ | 2026-02-09 |
-| **Delete Admin User** | Completely removes a user account and their data. | `1.0.0` | ❌ | 2026-02-09 |
-| **Force Reboot Policy** | Uptime monitoring and enforced restart intervals. | `1.2.0` | ❌ | 2026-02-12 |
-| **Restrict Admin Rights** | Demote local users to standard, keeping only IT admin. | `1.0.0` | ❌ | 2026-02-06 |
-| **Sync Device Name** | Syncs local ComputerName with Applivery Dashboard. | `1.0.0` | ✅ | 2026-02-09 |
-| **Temporary Admin Rights** | JIT elevation with reason logging and auto-revoke. | `1.1.0` | ❌ | 2026-02-12 |
+| Script | API | User interaction | Version |
+| :--- | :--- | :---: | :---: |
+| **Create Admin User** <br/> *Automated creation of hidden management accounts.* | ❌ | ❌ |  `1.0.0` <br/> 2026-02-06 |
+| **Crowdstrike enrollment** <br/> *Post-install licensing and tagging for Falcon sensors.* | ❌ | ❌ | `1.0.0` <br/> 2026-02-09 |
+| **Delete Admin User** <br/> *Completely removes a user account and their data.* | ❌ | ❌ | `1.0.0` <br/> 2026-02-09 |
+| **Force Reboot Policy** <br/> *Uptime monitoring and enforced restart intervals.* | ❌ | ✅ | `1.2.0` <br/> 2026-02-12 |
+| **Restrict Admin Rights** <br/> *Demote local users to standard, keeping only IT admin.* | ❌ | ❌ | `1.0.0` <br/> 2026-02-06 |
+| **Sync Device Name** <br/> *Syncs local ComputerName with Applivery Dashboard.* | ✅ | ❌ | `1.0.0` <br/> 2026-02-09 |
+| **Temporary Admin Rights** <br/> *JIT elevation with reason logging and auto-revoke.* | ❌ | ✅ | `1.1.0` <br/> 2026-02-12 |
 
 ### Windows
 
-| Script Name | Description | Version | API | Last Update |
-| :--- | :--- | :---: | :---: | :---: |
-| **Cloudflare WARP Enrollment** | Joins the device to a Zero Trust organization. | `1.1.0` | ❌ | 2026-02-12 |
-| **Crowdstrike Installation** | Silent installation and CID licensing for Falcon sensor. | `1.0.0` | ❌ | 2026-02-12 |
-| **Lock Device** | Lost or Stolen Device Lock with persistent notice. | `1.0.0` | ❌ | 2026-02-09 |
+| Script | API | User interaction | Version |
+| :--- | :--- | :---: | :---: |
+| **Cloudflare WARP Enrollment** | Joins the device to a Zero Trust organization. | ❌ | ✅ | `1.1.0` <br/> 2026-02-12 |
+| **Crowdstrike Installation** | Silent installation and CID licensing for Falcon sensor. | ❌ | ❌ | `1.0.0` <br/> 2026-02-12 |
+| **Lock Device** | Lost or Stolen Device Lock with persistent notice. | ❌ | ❌ | `1.0.0` <br/> 2026-02-09 |
 
 ### Templates
 
