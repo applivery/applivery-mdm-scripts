@@ -9,35 +9,37 @@ The repository is organized by Operating System. Each script has its own folder 
 * **/macOS**: Shell scripts (`.sh`) for macOS management (Intel and Apple Silicon).
 * **/Windows**: PowerShell scripts (`.ps1`) for Windows 10/11 devices.
 
-## 📂 Repository Structure
+## 📂 Repository Index
 
-```text
-.
-├── 🛠️ .templates ................... [2026-02-06]
-│   ├── README-script.md (Documentation blueprint)
-│   ├── template-macos.sh (Bash boilerplate)
-│   └── template-windows.ps1 (PowerShell boilerplate)
-│
-├── 🍎 Apple (macOS)
-│   ├── 📁 Create Admin User ......... [2026-02-06]
-│   │   └── Automated creation of hidden management accounts.
-│   ├── 📁 Crowdstrike enrollment .... [2026-02-09]
-│   │   └── Post-install licensing and tagging for Falcon sensors.
-│   ├── 📁 Force Reboot Policy ....... [2026-02-06]
-│   │   └── Uptime monitoring and enforced restart intervals.
-│   ├── 📁 Restrict Admin Rights ..... [2026-02-06]
-│   │   └── Demote local users to standard, keeping only IT admin.
-│   ├── 📁 Temporary Admin Rights .... [2026-02-06]
-│   │   └── JIT elevation with reason logging and auto-revoke.
-│   ├── 📁 Delete Admin User .... [2026-02-09]
-│   │   └── Completely removes a user account and their data.
-│   ├── 📁 Sync Device Name .......... [2026-02-09]
-│       └── Syncs local ComputerName with Applivery Dashboard.
-│
-└── 🪟 Windows
-    ├── 📁 Lock Device ......... [2026-02-09]
-        └── Lost or Stolen Device Lock.
-```
+### 🍎 Apple (macOS)
+
+| Script Name | Description | Version | API | Last Update |
+| :--- | :--- | :---: | :---: | :---: |
+| [**Create Admin User**] | Automated creation of hidden management accounts. | `1.0.0` | ❌ | 2026-02-06 |
+| [**Crowdstrike enrollment**] | Post-install licensing and tagging for Falcon sensors. | `1.0.0` | ❌ | 2026-02-09 |
+| [**Delete Admin User**] | Completely removes a user account and their data. | `1.0.0` | ❌ | 2026-02-09 |
+| [**Force Reboot Policy**] | Uptime monitoring and enforced restart intervals. | `1.2.0` | ❌ | 2026-02-12 |
+| [**Restrict Admin Rights**] | Demote local users to standard, keeping only IT admin. | `1.0.0` | ❌ | 2026-02-06 |
+| [**Sync Device Name**] | Syncs local ComputerName with Applivery Dashboard. | `1.0.0` | ✅ | 2026-02-09 |
+| [**Temporary Admin Rights**] | JIT elevation with reason logging and auto-revoke. | `1.1.0` | ❌ | 2026-02-12 |
+
+### 🪟 Windows
+
+| Script Name | Description | Version | API | Last Update |
+| :--- | :--- | :---: | :---: | :---: |
+| [**Cloudflare WARP Enrollment**] | Joins the device to a Zero Trust organization. | `1.1.0` | ❌ | 2026-02-12 |
+| [**Crowdstrike Installation**] | Silent installation and CID licensing for Falcon sensor. | `1.0.0` | ❌ | 2026-02-12 |
+| [**Lock Device**] | Lost or Stolen Device Lock with persistent notice. | `1.0.0` | ❌ | 2026-02-09 |
+
+### 🛠️ Templates
+
+| File | Description | Last Update |
+| :--- | :--- | :---: |
+| [**README-script.md**] | Documentation blueprint for new scripts. | 2026-02-06 |
+| [**template-macos.sh**] | Bash boilerplate for macOS. | 2026-02-06 |
+| [**template-windows.ps1**] | PowerShell boilerplate for Windows. | 2026-02-06 |
+
+---
 
 ## 🚀 How to use these scripts
 
