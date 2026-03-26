@@ -12,7 +12,7 @@
 # ==========================================
 # CONFIGURATION
 # ==========================================
-$NoticeTitle = "DISPOSITIVO BLOQUEADO / DEVICE LOCKED"
+$NoticeTitle = "DEVICE LOCKED"
 $NoticeMsg = "This device has been reported as LOST or STOLEN. Please return to headquarters."
 
 # ==========================================
